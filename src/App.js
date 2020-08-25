@@ -1,56 +1,47 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import ValidationComponent from './ValidationComponent/ValidationComponent';
-import CharComponent from './CharComponent/CharComponent';
+import Validation from './Validation/Validation';
+import Char from './Char/Char';
 
 class App extends Component {
   state = { 
-    txtLength: 0,
-    minLength: 5, 
-    chars: ''
+    userInputTxt: '',
+    minLength: 5
   }
 
 
   inputChangeHandler = (event) => {
-
-    console.log(this.state);
     //  make a copy of state using spread
-    let txtLength = {...this.state.txtLength};
-    //  get the text & length
-    const getTxt = event.target.value;
-    const getLength = getTxt.length;
-    //  split string into array
-    const txtArray = getTxt.split('');
+    let txtLength = {...this.state.userInputTxt.length};
 
-    //  set the new state to txtLength
-    txtLength = getLength;
-
-    this.setState({txtLength: txtLength});
-    this.setState({chars: txtArray});
+    this.setState({userInputTxt: event.target.value});
+    // this.setState({chars: txtArray});
   }
 
   charDeleteHandler = (charIndex) => {
-    console.log('delete me: ', charIndex);
-    const chars = [...this.state.chars];
-
-    chars.splice(charIndex, 1);
-    console.log('index: ', charIndex);
-
-    this.setState({chars: chars});
+    //  get text and convert into array
+    const text = this.state.userInputTxt.split('');
+    //  remove character an index
+    text.splice(charIndex, 1);
+    //  rejoin as array again
+    const updatedText = text.join('');
+    //  update state
+    this.setState({userInputTxt: updatedText});
   }
 
   render() {
     let letters = null;
     //  if there are chars entered
-    if(this.state.txtLength > 0) {
+    if(this.state.userInputTxt.length > 0) {
       letters = (
         <div>
           {/* letters should be group of CharComponents, with each letter of string */}
-          {this.state.chars.map((char, index) => {
-              return <CharComponent 
+          {this.state.userInputTxt.split('').map((char, index) => {
+              return <Char
               char={char}
-              click={(event) => this.charDeleteHandler(index)} /> 
+              key={index}
+              click={() => this.charDeleteHandler(index)} /> 
           })}
         </div>
       )
@@ -67,12 +58,18 @@ class App extends Component {
           <li>When you click a CharComponent, it should be removed from the entered text.</li>
         </ol>
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
+        {/* need to set up two way binding */}
+        <input 
+          type="text" 
+          onChange={(event) => this.inputChangeHandler(event)} 
+          value={this.state.userInputTxt} />
 
-        <input type="text" onChange={(event) => this.inputChangeHandler(event)}/>
+        <p>{this.state.getLength}</p>
 
-        <p>{this.length}</p>
-
-        <ValidationComponent txtLength={this.state.txtLength} minLength={this.state.minLength} validationMessage={this.validationMessage} />
+        <Validation 
+          txtLength={this.state.userInputTxt.length} 
+          minLength={this.state.minLength} 
+          validationMessage={this.validationMessage} />
         
         {/* render the conditional letters obj */}
         {letters} 

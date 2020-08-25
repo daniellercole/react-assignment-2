@@ -1,10 +1,10 @@
 import React from 'react';
 
-const ValidationComponent = (props) => {
+const validation = (props) => {
   
   const validationMessage = (props.txtLength >= props.minLength)
-      ? 'text long enough' 
-      : 'text not long enough'; 
+    ? 'text long enough' 
+    : 'text not long enough'; 
 
   return(
     <div>
@@ -14,4 +14,4 @@ const ValidationComponent = (props) => {
   )
 }
 
-export default ValidationComponent; 
+export default validation; 

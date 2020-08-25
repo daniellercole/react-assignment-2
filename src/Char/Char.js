@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CharComponent = (props) => {
+const char = (props) => {
   const charStyles = {
     display: 'inline',
     backgroundColor: 'orange',
@@ -12,8 +12,10 @@ const CharComponent = (props) => {
   return (
     <p style={charStyles}
       onClick={props.click}
-    >{props.char}</p>
+    >
+      {props.char}
+    </p>
   )
 }
 
-export default CharComponent; 
+export default char; 
